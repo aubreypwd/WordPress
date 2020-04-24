@@ -165,7 +165,10 @@ function get_permalink( $post = 0, $leavename = false ) {
 	 */
 	$permalink = apply_filters( 'pre_post_link', $permalink, $post, $leavename );
 
-	if ( '' != $permalink && ! in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft', 'future' ) ) ) {
+	if ( ( '' != $permalink && ! in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft', 'future' ) ) ) || $sample ) {
+		if ( $sample ) {
+			$post->post_name = sanitize_title( $post->post_name ? $post->post_name : $post->post_title, $post->ID );
+		}
 
 		$category = '';
 		if ( strpos( $permalink, '%category%' ) !== false ) {
